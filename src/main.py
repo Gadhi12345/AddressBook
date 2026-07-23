@@ -2,13 +2,15 @@ from model.contact import Contact
 from model.address_book import AddressBook
 from model.edit_contact import EditContact
 from model.delete_contact import DeleteContact
+from model.duplicate_contact import DuplicateContact
 
 
-# Dictionary to store multiple Address Books
+# Stores multiple Address Books
 address_books = {}
 
 edit_contact = EditContact()
 delete_contact = DeleteContact()
+duplicate_contact = DuplicateContact()
 
 
 while True:
@@ -29,11 +31,15 @@ while True:
             book_name = input("Enter Address Book Name: ")
 
             if book_name in address_books:
-                print("Address Book already exists.")
+                print("\nAddress Book already exists.")
 
             else:
                 address_books[book_name] = AddressBook()
-                print(f"Address Book '{book_name}' created successfully.")
+
+                print(
+                    f"\nAddress Book '{book_name}' "
+                    "created successfully."
+                )
 
 
         # ---------- SELECT ADDRESS BOOK ----------
@@ -43,10 +49,11 @@ while True:
 
             if book_name not in address_books:
 
-                print("Address Book not found.")
+                print("\nAddress Book not found.")
 
             else:
 
+                # Select one Address Book
                 address_book = address_books[book_name]
 
                 while True:
@@ -67,29 +74,64 @@ while True:
 
                             print("\n--- Add Contact ---")
 
-                            first_name = input("Enter First Name: ")
-                            last_name = input("Enter Last Name: ")
-                            address = input("Enter Address: ")
-                            city = input("Enter City: ")
-                            state = input("Enter State: ")
-                            zip_code = input("Enter Zip Code: ")
-                            phone_number = input("Enter Phone Number: ")
-                            email = input("Enter Email: ")
-
-                            contact = Contact(
-                                first_name,
-                                last_name,
-                                address,
-                                city,
-                                state,
-                                zip_code,
-                                phone_number,
-                                email
+                            first_name = input(
+                                "Enter First Name: "
                             )
 
-                            address_book.add_contact(contact)
+                            last_name = input(
+                                "Enter Last Name: "
+                            )
 
-                            print("Contact added successfully.")
+                            # UC6 - Check Duplicate Contact
+                            if duplicate_contact.is_duplicate(
+                                address_book.contacts,
+                                first_name,
+                                last_name
+                            ):
+
+                                print(
+                                    "\nContact already exists. "
+                                    "Duplicate contact not allowed."
+                                )
+
+                            else:
+
+                                address = input(
+                                    "Enter Address: "
+                                )
+
+                                city = input(
+                                    "Enter City: "
+                                )
+
+                                state = input(
+                                    "Enter State: "
+                                )
+
+                                zip_code = input(
+                                    "Enter Zip Code: "
+                                )
+
+                                phone_number = input(
+                                    "Enter Phone Number: "
+                                )
+
+                                email = input(
+                                    "Enter Email: "
+                                )
+
+                                contact = Contact(
+                                    first_name,
+                                    last_name,
+                                    address,
+                                    city,
+                                    state,
+                                    zip_code,
+                                    phone_number,
+                                    email
+                                )
+
+                                address_book.add_contact(contact)
 
 
                         # ---------- EDIT CONTACT ----------
@@ -97,14 +139,23 @@ while True:
 
                             print("\n--- Edit Contact ---")
 
-                            first_name = input(
-                                "Enter First Name of Contact to Edit: "
-                            )
+                            if not address_book.contacts:
 
-                            edit_contact.edit_contact(
-                                address_book.contacts,
-                                first_name
-                            )
+                                print(
+                                    "\nNo contacts available to edit."
+                                )
+
+                            else:
+
+                                first_name = input(
+                                    "Enter First Name of "
+                                    "Contact to Edit: "
+                                )
+
+                                edit_contact.edit_contact(
+                                    address_book.contacts,
+                                    first_name
+                                )
 
 
                         # ---------- DELETE CONTACT ----------
@@ -112,14 +163,23 @@ while True:
 
                             print("\n--- Delete Contact ---")
 
-                            first_name = input(
-                                "Enter First Name of Contact to Delete: "
-                            )
+                            if not address_book.contacts:
 
-                            delete_contact.delete_contact(
-                                address_book.contacts,
-                                first_name
-                            )
+                                print(
+                                    "\nNo contacts available to delete."
+                                )
+
+                            else:
+
+                                first_name = input(
+                                    "Enter First Name of "
+                                    "Contact to Delete: "
+                                )
+
+                                delete_contact.delete_contact(
+                                    address_book.contacts,
+                                    first_name
+                                )
 
 
                         # ---------- DISPLAY CONTACTS ----------
@@ -136,9 +196,13 @@ while True:
                             break
 
 
+                        # ---------- INVALID CHOICE ----------
                         case _:
 
-                            print("Invalid choice. Please try again.")
+                            print(
+                                "\nInvalid choice. "
+                                "Please try again."
+                            )
 
 
         # ---------- DISPLAY ADDRESS BOOKS ----------

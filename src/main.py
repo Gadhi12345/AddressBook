@@ -1,8 +1,8 @@
 from model.contact import Contact
-from model.address_book import AddressBook
+from model.add_contact import AddContact
 
 
-address_book = AddressBook()
+address_book = AddContact()
 
 print("Enter Contact Details")
 

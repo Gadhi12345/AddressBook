@@ -1,41 +1,74 @@
 from model.contact import Contact
-from model.add_contact import AddContact
+from model.address_book import AddressBook
+from model.edit_contact import EditContact
 
 
-address_book = AddContact()
+address_book = AddressBook()
+edit_contact = EditContact()
 
-print("Enter Contact Details")
+while True:
 
-first_name = input("Enter First Name: ")
-last_name = input("Enter Last Name: ")
-address = input("Enter Address: ")
-city = input("Enter City: ")
-state = input("Enter State: ")
-zip_code = input("Enter Zip Code: ")
-phone_number = input("Enter Phone Number: ")
-email = input("Enter Email: ")
+    print("\n===== ADDRESS BOOK =====")
+    print("1. Add Contact")
+    print("2. Edit Contact")
+    print("3. Display Contacts")
+    print("4. Exit")
 
-contact = Contact(
-    first_name,
-    last_name,
-    address,
-    city,
-    state,
-    zip_code,
-    phone_number,
-    email
-)
+    choice = input("Enter your choice: ")
 
-address_book.add_contact(contact)
+    match choice:
 
-print("\nContacts in Address Book:")
-address_book.display_contacts()
+        case "1":
+            print("\n--- Add Contact ---")
 
-print("\n--- Edit Contact ---")
+            first_name = input("Enter First Name: ")
+            last_name = input("Enter Last Name: ")
+            address = input("Enter Address: ")
+            city = input("Enter City: ")
+            state = input("Enter State: ")
+            zip_code = input("Enter Zip Code: ")
+            phone_number = input("Enter Phone Number: ")
+            email = input("Enter Email: ")
 
-name = input("Enter First Name of Contact to Edit: ")
+            contact = Contact(
+                first_name,
+                last_name,
+                address,
+                city,
+                state,
+                zip_code,
+                phone_number,
+                email
+            )
 
-address_book.edit_contact(name)
+            address_book.add_contact(contact)
 
-print("\nUpdated Contact Details:")
-address_book.display_contacts()
+        case "2":
+            print("\n--- Edit Contact ---")
+
+            if not address_book.contacts:
+                print("No contacts available to edit.")
+            else:
+                first_name = input(
+                    "Enter First Name of Contact to Edit: "
+                )
+
+                edit_contact.edit_contact(
+                    address_book.contacts,
+                    first_name
+                )
+
+        case "3":
+            print("\n--- Contact List ---")
+
+            if not address_book.contacts:
+                print("No contacts available.")
+            else:
+                address_book.display_contacts()
+
+        case "4":
+            print("\nExiting Address Book...")
+            break
+
+        case _:
+            print("\nInvalid choice. Please try again.")

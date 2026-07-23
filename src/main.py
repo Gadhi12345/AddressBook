@@ -1,5 +1,8 @@
 from model.contact import Contact
+from model.address_book import AddressBook
 
+
+address_book = AddressBook()
 
 print("Enter Contact Details")
 
@@ -12,7 +15,7 @@ zip_code = input("Enter Zip Code: ")
 phone_number = input("Enter Phone Number: ")
 email = input("Enter Email: ")
 
-contact1 = Contact(
+contact = Contact(
     first_name,
     last_name,
     address,
@@ -23,4 +26,7 @@ contact1 = Contact(
     email
 )
 
-contact1.display_contact()
+address_book.add_contact(contact)
+
+print("\nContacts in Address Book:")
+address_book.display_contacts()

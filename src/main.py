@@ -4,6 +4,7 @@ from model.edit_contact import EditContact
 from model.delete_contact import DeleteContact
 from model.duplicate_contact import DuplicateContact
 from model.search_contact import SearchContact
+from model.view_contact import ViewContact
 
 
 # Dictionary to store multiple Address Books
@@ -14,6 +15,7 @@ edit_contact = EditContact()
 delete_contact = DeleteContact()
 duplicate_contact = DuplicateContact()
 search_contact = SearchContact()
+view_contact = ViewContact()
 
 
 while True:
@@ -26,7 +28,9 @@ while True:
     print("3. Display Address Books")
     print("4. Search Person by City")
     print("5. Search Person by State")
-    print("6. Exit")
+    print("6. View Persons by City")
+    print("7. View Persons by State")
+    print("8. Exit")
 
     choice = input("Enter your choice: ")
 
@@ -67,7 +71,7 @@ while True:
 
                 while True:
 
-                    # ============= CONTACT MENU =============
+                    # ============ CONTACT MENU ============
 
                     print(
                         f"\n===== {book_name} ADDRESS BOOK ====="
@@ -98,7 +102,7 @@ while True:
                                 "Enter Last Name: "
                             )
 
-                            # UC6 - Check duplicate contact
+                            # UC6 - Prevent duplicate contacts
                             if duplicate_contact.is_duplicate(
                                 address_book.contacts,
                                 first_name,
@@ -271,8 +275,24 @@ while True:
             )
 
 
-        # ---------- EXIT ----------
+        # ---------- VIEW PERSONS BY CITY ----------
         case "6":
+
+            view_contact.view_by_city(
+                address_books
+            )
+
+
+        # ---------- VIEW PERSONS BY STATE ----------
+        case "7":
+
+            view_contact.view_by_state(
+                address_books
+            )
+
+
+        # ---------- EXIT ----------
+        case "8":
 
             print("\nExiting Address Book...")
             break

@@ -30,3 +30,12 @@ address_book.add_contact(contact)
 
 print("\nContacts in Address Book:")
 address_book.display_contacts()
+
+print("\n--- Edit Contact ---")
+
+name = input("Enter First Name of Contact to Edit: ")
+
+address_book.edit_contact(name)
+
+print("\nUpdated Contact Details:")
+address_book.display_contacts()

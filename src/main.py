@@ -4,92 +4,167 @@ from model.edit_contact import EditContact
 from model.delete_contact import DeleteContact
 
 
-address_book = AddressBook()
+# Dictionary to store multiple Address Books
+address_books = {}
+
 edit_contact = EditContact()
 delete_contact = DeleteContact()
 
 
 while True:
 
-    print("\n===== ADDRESS BOOK =====")
-    print("1. Add Contact")
-    print("2. Edit Contact")
-    print("3. Delete Contact")
-    print("4. Display Contacts")
-    print("5. Exit")
+    print("\n===== ADDRESS BOOK SYSTEM =====")
+    print("1. Create Address Book")
+    print("2. Select Address Book")
+    print("3. Display Address Books")
+    print("4. Exit")
 
     choice = input("Enter your choice: ")
 
     match choice:
 
-        # ---------- ADD CONTACT ----------
+        # ---------- CREATE ADDRESS BOOK ----------
         case "1":
-            print("\n--- Add Contact ---")
 
-            first_name = input("Enter First Name: ")
-            last_name = input("Enter Last Name: ")
-            address = input("Enter Address: ")
-            city = input("Enter City: ")
-            state = input("Enter State: ")
-            zip_code = input("Enter Zip Code: ")
-            phone_number = input("Enter Phone Number: ")
-            email = input("Enter Email: ")
+            book_name = input("Enter Address Book Name: ")
 
-            contact = Contact(
-                first_name,
-                last_name,
-                address,
-                city,
-                state,
-                zip_code,
-                phone_number,
-                email
-            )
+            if book_name in address_books:
+                print("Address Book already exists.")
 
-            address_book.add_contact(contact)
+            else:
+                address_books[book_name] = AddressBook()
+                print(f"Address Book '{book_name}' created successfully.")
 
 
-        # ---------- EDIT CONTACT ----------
+        # ---------- SELECT ADDRESS BOOK ----------
         case "2":
-            print("\n--- Edit Contact ---")
 
-            first_name = input(
-                "Enter First Name of Contact to Edit: "
-            )
+            book_name = input("Enter Address Book Name: ")
 
-            edit_contact.edit_contact(
-                address_book.contacts,
-                first_name
-            )
+            if book_name not in address_books:
+
+                print("Address Book not found.")
+
+            else:
+
+                address_book = address_books[book_name]
+
+                while True:
+
+                    print(f"\n===== {book_name} ADDRESS BOOK =====")
+                    print("1. Add Contact")
+                    print("2. Edit Contact")
+                    print("3. Delete Contact")
+                    print("4. Display Contacts")
+                    print("5. Back")
+
+                    contact_choice = input("Enter your choice: ")
+
+                    match contact_choice:
+
+                        # ---------- ADD CONTACT ----------
+                        case "1":
+
+                            print("\n--- Add Contact ---")
+
+                            first_name = input("Enter First Name: ")
+                            last_name = input("Enter Last Name: ")
+                            address = input("Enter Address: ")
+                            city = input("Enter City: ")
+                            state = input("Enter State: ")
+                            zip_code = input("Enter Zip Code: ")
+                            phone_number = input("Enter Phone Number: ")
+                            email = input("Enter Email: ")
+
+                            contact = Contact(
+                                first_name,
+                                last_name,
+                                address,
+                                city,
+                                state,
+                                zip_code,
+                                phone_number,
+                                email
+                            )
+
+                            address_book.add_contact(contact)
+
+                            print("Contact added successfully.")
 
 
-        # ---------- DELETE CONTACT ----------
+                        # ---------- EDIT CONTACT ----------
+                        case "2":
+
+                            print("\n--- Edit Contact ---")
+
+                            first_name = input(
+                                "Enter First Name of Contact to Edit: "
+                            )
+
+                            edit_contact.edit_contact(
+                                address_book.contacts,
+                                first_name
+                            )
+
+
+                        # ---------- DELETE CONTACT ----------
+                        case "3":
+
+                            print("\n--- Delete Contact ---")
+
+                            first_name = input(
+                                "Enter First Name of Contact to Delete: "
+                            )
+
+                            delete_contact.delete_contact(
+                                address_book.contacts,
+                                first_name
+                            )
+
+
+                        # ---------- DISPLAY CONTACTS ----------
+                        case "4":
+
+                            print("\n--- Contact List ---")
+
+                            address_book.display_contacts()
+
+
+                        # ---------- BACK ----------
+                        case "5":
+
+                            break
+
+
+                        case _:
+
+                            print("Invalid choice. Please try again.")
+
+
+        # ---------- DISPLAY ADDRESS BOOKS ----------
         case "3":
-            print("\n--- Delete Contact ---")
 
-            first_name = input(
-                "Enter First Name of Contact to Delete: "
-            )
+            print("\n--- Available Address Books ---")
 
-            delete_contact.delete_contact(
-                address_book.contacts,
-                first_name
-            )
+            if not address_books:
 
+                print("No Address Books available.")
 
-        # ---------- DISPLAY CONTACTS ----------
-        case "4":
-            print("\n--- Contact List ---")
+            else:
 
-            address_book.display_contacts()
+                for book_name in address_books:
+
+                    print(book_name)
 
 
         # ---------- EXIT ----------
-        case "5":
+        case "4":
+
             print("\nExiting Address Book...")
             break
 
 
         # ---------- INVALID CHOICE ----------
         case _:
+
             print("\nInvalid choice. Please try again.")

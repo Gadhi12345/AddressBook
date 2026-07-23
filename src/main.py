@@ -3,23 +3,30 @@ from model.address_book import AddressBook
 from model.edit_contact import EditContact
 from model.delete_contact import DeleteContact
 from model.duplicate_contact import DuplicateContact
+from model.search_contact import SearchContact
 
 
-# Stores multiple Address Books
+# Dictionary to store multiple Address Books
 address_books = {}
 
+# Objects for different operations
 edit_contact = EditContact()
 delete_contact = DeleteContact()
 duplicate_contact = DuplicateContact()
+search_contact = SearchContact()
 
 
 while True:
+
+    # ================= MAIN MENU =================
 
     print("\n===== ADDRESS BOOK SYSTEM =====")
     print("1. Create Address Book")
     print("2. Select Address Book")
     print("3. Display Address Books")
-    print("4. Exit")
+    print("4. Search Person by City")
+    print("5. Search Person by State")
+    print("6. Exit")
 
     choice = input("Enter your choice: ")
 
@@ -31,9 +38,11 @@ while True:
             book_name = input("Enter Address Book Name: ")
 
             if book_name in address_books:
+
                 print("\nAddress Book already exists.")
 
             else:
+
                 address_books[book_name] = AddressBook()
 
                 print(
@@ -53,19 +62,26 @@ while True:
 
             else:
 
-                # Select one Address Book
+                # Get selected Address Book
                 address_book = address_books[book_name]
 
                 while True:
 
-                    print(f"\n===== {book_name} ADDRESS BOOK =====")
+                    # ============= CONTACT MENU =============
+
+                    print(
+                        f"\n===== {book_name} ADDRESS BOOK ====="
+                    )
+
                     print("1. Add Contact")
                     print("2. Edit Contact")
                     print("3. Delete Contact")
                     print("4. Display Contacts")
                     print("5. Back")
 
-                    contact_choice = input("Enter your choice: ")
+                    contact_choice = input(
+                        "Enter your choice: "
+                    )
 
                     match contact_choice:
 
@@ -82,7 +98,7 @@ while True:
                                 "Enter Last Name: "
                             )
 
-                            # UC6 - Check Duplicate Contact
+                            # UC6 - Check duplicate contact
                             if duplicate_contact.is_duplicate(
                                 address_book.contacts,
                                 first_name,
@@ -131,7 +147,9 @@ while True:
                                     email
                                 )
 
-                                address_book.add_contact(contact)
+                                address_book.add_contact(
+                                    contact
+                                )
 
 
                         # ---------- EDIT CONTACT ----------
@@ -142,7 +160,8 @@ while True:
                             if not address_book.contacts:
 
                                 print(
-                                    "\nNo contacts available to edit."
+                                    "\nNo contacts available "
+                                    "to edit."
                                 )
 
                             else:
@@ -166,7 +185,8 @@ while True:
                             if not address_book.contacts:
 
                                 print(
-                                    "\nNo contacts available to delete."
+                                    "\nNo contacts available "
+                                    "to delete."
                                 )
 
                             else:
@@ -196,7 +216,7 @@ while True:
                             break
 
 
-                        # ---------- INVALID CHOICE ----------
+                        # ---------- INVALID CONTACT CHOICE ----------
                         case _:
 
                             print(
@@ -221,14 +241,47 @@ while True:
                     print(book_name)
 
 
-        # ---------- EXIT ----------
+        # ---------- SEARCH PERSON BY CITY ----------
         case "4":
+
+            print("\n--- Search Person by City ---")
+
+            city = input(
+                "Enter City to Search: "
+            )
+
+            search_contact.search_by_city(
+                address_books,
+                city
+            )
+
+
+        # ---------- SEARCH PERSON BY STATE ----------
+        case "5":
+
+            print("\n--- Search Person by State ---")
+
+            state = input(
+                "Enter State to Search: "
+            )
+
+            search_contact.search_by_state(
+                address_books,
+                state
+            )
+
+
+        # ---------- EXIT ----------
+        case "6":
 
             print("\nExiting Address Book...")
             break
 
 
-        # ---------- INVALID CHOICE ----------
+        # ---------- INVALID MAIN CHOICE ----------
         case _:
 
-            print("\nInvalid choice. Please try again.")
+            print(
+                "\nInvalid choice. "
+                "Please try again."
+            )
